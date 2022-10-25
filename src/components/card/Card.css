@@ -1,0 +1,48 @@
+@import '../../utils/css-globals';
+
+.number-card-red,
+.number-card-blue,
+.number-card-yellow,
+.number-card-green,
+.number-card-default {
+  border: solid 2px black;
+  border-radius: 15px;
+  background-color: var(--card-background-default);
+  color: var(--card-text-default);
+  height: 12rem;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+
+.number-card-red {
+  background-color: var(--card-background-red);
+  color: var(--card-text-red);
+}
+
+.number-card-blue {
+  background-color: var(--card-background-blue);
+  color: var(--card-text-blue);
+}
+
+.number-card-yellow {
+  background-color: var(--card-background-yellow);
+  color: var(--card-text-yellow);
+}
+
+.number-card-green {
+  background-color: var(--card-background-green);
+  color: var(--card-text-green);
+}
+
+.number-card-default {
+  background-color: var(--card-background-default);
+  color: var(--card-text-default);
+}
+
+.number-card-number {
+  font-size: 5rem;
+  font-weight: bold;
+}

@@ -1,0 +1,17 @@
+.player-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 18rem;
+}
+
+.player-active-area {
+  width: 13.5rem;
+}
+
+.item-area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

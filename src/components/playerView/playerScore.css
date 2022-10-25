@@ -1,0 +1,16 @@
+.player-score-black {
+  --score-color: var(--player-black);
+}
+.player-score-white {
+  --score-color: var(--player-white);
+}
+.player-score-purple {
+  --score-color: var(--player-purple);
+}
+
+.player-score-black,
+.player-score-white,
+.player-score-purple {
+  font-size: 2em;
+  color: var(--score-color);
+}

@@ -1,0 +1,42 @@
+@import '../../utils/css-globals';
+
+.locale-card-red,
+.locale-card-blue,
+.locale-card-yellow,
+.locale-card-green {
+  border: solid 2px black;
+  border-radius: 15px;
+  background-color: var(--card-background-default);
+  color: var(--card-text-default);
+  margin: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+  padding: 1rem;
+}
+
+.locale-card-red {
+  background-color: var(--card-background-red);
+  color: var(--card-text-red);
+}
+
+.locale-card-blue {
+  background-color: var(--card-background-blue);
+  color: var(--card-text-blue);
+}
+
+.locale-card-yellow {
+  background-color: var(--card-background-yellow);
+  color: var(--card-text-yellow);
+}
+
+.locale-card-green {
+  background-color: var(--card-background-green);
+  color: var(--card-text-green);
+}
+
+.locale-card-locale {
+  font-size: 3rem;
+  font-weight: bold;
+}

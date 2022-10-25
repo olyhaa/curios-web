@@ -1,0 +1,15 @@
+@import '../../utils/css-globals';
+
+.pawn-slot,
+.empty-slot {
+  height: 3.5rem;
+  width: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.pawn-slot {
+  border: solid 2px black;
+}

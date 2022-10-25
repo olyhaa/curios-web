@@ -1,0 +1,60 @@
+.gem-shape-red,
+.gem-shape-blue,
+.gem-shape-yellow,
+.gem-shape-green {
+  border-style: solid;
+  border-width: 0 0.5rem 0.5rem 0.5rem;
+  border-color: transparent transparent var(--card-text-default) transparent;
+  height: 0;
+  width: 1rem;
+  box-sizing: content-box;
+  position: relative;
+  margin: 0.5rem 0.5rem 0.5rem;
+}
+
+.gem-shape-red {
+  border-color: transparent transparent var(--card-text-red) transparent;
+}
+
+.gem-shape-blue {
+  border-color: transparent transparent var(--card-text-blue) transparent;
+}
+
+.gem-shape-yellow {
+  border-color: transparent transparent var(--card-text-yellow) transparent;
+}
+
+.gem-shape-green {
+  border-color: transparent transparent var(--card-text-green) transparent;
+}
+
+.gem-shape-red:after,
+.gem-shape-blue:after,
+.gem-shape-yellow:after,
+.gem-shape-green:after {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  left: -0.5rem;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 1rem 1rem 0 1rem;
+  border-color: var(--card-text-default) transparent transparent transparent;
+}
+
+.gem-shape-red:after {
+  border-color: var(--card-text-red) transparent transparent transparent;
+}
+
+.gem-shape-blue:after {
+  border-color: var(--card-text-blue) transparent transparent transparent;
+}
+
+.gem-shape-yellow:after {
+  border-color: var(--card-text-yellow) transparent transparent transparent;
+}
+
+.gem-shape-green:after {
+  border-color: var(--card-text-green) transparent transparent transparent;
+}

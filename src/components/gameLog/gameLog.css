@@ -1,0 +1,7 @@
+.log-container {
+  margin: 4rem;
+  text-align: start;
+  overflow: auto;
+  max-height: 81rem;
+  max-width: 55rem;
+}

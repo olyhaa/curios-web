@@ -1,0 +1,64 @@
+.pawn-shape-black,
+.pawn-shape-white,
+.pawn-shape-purple {
+  width: 3.5rem;
+  height: 2rem;
+  position: relative;
+  margin: 0.25rem;
+}
+
+.pawn-shape-red {
+  color: var(--player-white);
+}
+
+.pawn-shape-black {
+  color: var(--player-black);
+}
+
+.pawn-shape-purple {
+  color: var(--player-purple);
+}
+
+.pawn-shape-green {
+  border-color: transparent transparent var(--card-text-green) transparent;
+}
+
+.pawn-shape-black:before,
+.pawn-shape-white:before,
+.pawn-shape-purple:before,
+.pawn-shape-black:after,
+.pawn-shape-white:after,
+.pawn-shape-purple:after {
+  content: '';
+  width: 1.5rem;
+  height: 2.5rem;
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  border-radius: 1.5rem 1.5rem 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.pawn-shape-black:after,
+.pawn-shape-white:after,
+.pawn-shape-purple:after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+.pawn-shape-black:before,
+.pawn-shape-black:after {
+  background: var(--player-black);
+}
+
+.pawn-shape-white:before,
+.pawn-shape-white:after {
+  background: var(--player-white);
+}
+
+.pawn-shape-purple:before,
+.pawn-shape-purple:after {
+  background: var(--player-purple);
+}

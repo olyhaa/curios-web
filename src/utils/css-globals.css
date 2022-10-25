@@ -1,0 +1,15 @@
+:root {
+  --card-background-default: #bababa;
+  --card-text-default: #3d3d3d;
+  --card-background-red: #ffabab;
+  --card-text-red: #ff0000;
+  --card-background-blue: #b8c2fd;
+  --card-text-blue: #0026ff;
+  --card-background-yellow: #fffdde;
+  --card-text-yellow: #cbbd00;
+  --card-background-green: #d0ffe4;
+  --card-text-green: #00923f;
+  --player-white: #bcbcbc;
+  --player-black: #000000;
+  --player-purple: #d400ff;
+}

@@ -1,0 +1,10 @@
+.gem-stash {
+  padding: 0 1rem;
+  display: grid;
+  gap: 1rem 0;
+  grid-template-columns: auto auto auto auto auto auto auto;
+}
+
+.locale-board-area {
+  min-width: 15rem;
+}
