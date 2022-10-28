@@ -11,36 +11,69 @@ export const DEFAULT_COLOR = 'default';
 export const CARD_COLOR_OPTIONS = { RED, BLUE, YELLOW, GREEN, DEFAULT_COLOR };
 export const PAWN_COLOR_OPTIONS = { BLACK, WHITE, PURPLE };
 
-export const getDefaultLocales = (selectLocale, localeCards) => [
+export const GAME_CONFIG = [
   {
-    slotsOccupied: [],
-    color: CARD_COLOR_OPTIONS.BLUE,
-    gemCount: 9,
-    handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.BLUE),
-    card: localeCards[0],
+    numPlayers: 2,
+    numArtifacts: 8,
+    numCardsInHand: 4,
+    numCardsInSideDeck: 4,
   },
   {
-    slotsOccupied: [],
-    color: CARD_COLOR_OPTIONS.GREEN,
-    gemCount: 9,
-    handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.GREEN),
-    card: localeCards[1],
+    numPlayers: 3,
+    numArtifacts: 10,
+    numCardsInHand: 4,
+    numCardsInSideDeck: 0,
   },
   {
-    slotsOccupied: [],
-    color: CARD_COLOR_OPTIONS.RED,
-    gemCount: 9,
-    handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.RED),
-    card: localeCards[2],
+    numPlayers: 4,
+    numArtifacts: 12,
+    numCardsInHand: 3,
+    numCardsInSideDeck: 0,
   },
   {
-    slotsOccupied: [],
-    color: CARD_COLOR_OPTIONS.YELLOW,
-    gemCount: 9,
-    handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.YELLOW),
-    card: localeCards[3],
+    numPlayers: 5,
+    numArtifacts: 14,
+    numCardsInHand: 2,
+    numCardsInSideDeck: 3,
   },
 ];
+
+export const getDefaultLocales = (numPlayers, selectLocale, localeCards) => {
+  const thisGameConfig = GAME_CONFIG.filter(
+    ({ numPlayers: players }) => numPlayers === players
+  )[0];
+
+  return [
+    {
+      slotsOccupied: [],
+      color: CARD_COLOR_OPTIONS.BLUE,
+      gemCount: thisGameConfig.numArtifacts,
+      handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.BLUE),
+      card: localeCards[0],
+    },
+    {
+      slotsOccupied: [],
+      color: CARD_COLOR_OPTIONS.GREEN,
+      gemCount: thisGameConfig.numArtifacts,
+      handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.GREEN),
+      card: localeCards[1],
+    },
+    {
+      slotsOccupied: [],
+      color: CARD_COLOR_OPTIONS.RED,
+      gemCount: thisGameConfig.numArtifacts,
+      handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.RED),
+      card: localeCards[2],
+    },
+    {
+      slotsOccupied: [],
+      color: CARD_COLOR_OPTIONS.YELLOW,
+      gemCount: thisGameConfig.numArtifacts,
+      handleSelectLocale: () => selectLocale(true, CARD_COLOR_OPTIONS.YELLOW),
+      card: localeCards[3],
+    },
+  ];
+};
 
 export const getDefaultPlayerInfo = (cards, color) => {
   return {

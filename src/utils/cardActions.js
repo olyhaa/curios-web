@@ -21,7 +21,7 @@ export const shuffleCards = (cards) => {
   return shuffledCards;
 };
 
-export const dealCards = () => {
+export const dealCards = ({ numCardsInHand }) => {
   const localeCards = [];
   const allCards = [...ALL_CARDS];
   localeCards.unshift(
@@ -33,8 +33,8 @@ export const dealCards = () => {
 
   const shuffledCards = shuffleCards(allCards);
 
-  const playerCards = shuffledCards.splice(0, 4);
-  const computerCards = shuffledCards.splice(0, 4);
+  const playerCards = shuffledCards.splice(0, numCardsInHand);
+  const computerCards = shuffledCards.splice(0, numCardsInHand);
 
   return { drawPile: shuffledCards, playerCards, computerCards, localeCards };
 };

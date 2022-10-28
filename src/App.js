@@ -7,6 +7,7 @@ import {
   PAWN_COLOR_OPTIONS,
   getDefaultLocales,
   getDefaultPlayerInfo,
+  GAME_CONFIG,
 } from './utils/constants';
 import { dealCards } from './utils/cardActions';
 import {
@@ -64,10 +65,11 @@ function App() {
   };
 
   const resetBoard = () => {
-    const { drawPile, playerCards, computerCards, localeCards } = dealCards();
+    const { drawPile, playerCards, computerCards, localeCards } =
+      dealCards(thisGameConfig);
     updateLog('Dealing out new cards');
 
-    setLocales(() => getDefaultLocales(handleSelectLocale, localeCards));
+    setLocales(() => getDefaultLocales(2, handleSelectLocale, localeCards));
     setDrawPile(() => drawPile);
     setPublicCards(() => []);
     setCurrentPlayerInfo(() =>
