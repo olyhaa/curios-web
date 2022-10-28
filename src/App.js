@@ -25,6 +25,7 @@ function App() {
   const [currentPlayerInfo, setCurrentPlayerInfo] = useState();
   const [computerPlayerInfo, setComputerPlayerInfo] = useState();
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+  const [isPlayerFirst, setIsPlayerFirst] = useState(true);
   const [isComputerDoneRound, setComputerDoneRound] = useState(false);
   const [isPlayerDoneRound, setPlayerDoneRound] = useState(false);
   const [isGameDone, setGameDone] = useState(false);
@@ -65,6 +66,11 @@ function App() {
   };
 
   const resetBoard = () => {
+    setGameLog([]);
+    const thisGameConfig = GAME_CONFIG.filter(
+      ({ numPlayers }) => numPlayers === 2
+    )[0];
+
     const { drawPile, playerCards, computerCards, localeCards } =
       dealCards(thisGameConfig);
     updateLog('Dealing out new cards');
@@ -79,6 +85,7 @@ function App() {
       getDefaultPlayerInfo(computerCards, PAWN_COLOR_OPTIONS.WHITE)
     );
     updateLog("It's the player's turn");
+    setIsPlayerFirst(true);
     setIsPlayerTurn(true);
     setComputerDoneRound(false);
     setPlayerDoneRound(false);
@@ -87,13 +94,19 @@ function App() {
   };
 
   const doComputerTurn = () => {
+    setIsPlayerTurn(false);
+    if (isComputerDoneRound) {
+      updateLog("It's the player's turn again");
+      setIsPlayerTurn(true);
+    }
     const randomColor = computerClaimArtifact(
-      currentPlayerInfo.pawnCount,
+      computerPlayerInfo.pawnCount,
       locales
     );
     if (!randomColor) {
       updateLog('Computer Passed');
       setComputerDoneRound(true);
+      setIsPlayerTurn(true);
       return;
     }
     setComputerDoneRound(false);
@@ -134,8 +147,9 @@ function App() {
 
     setComputerDoneRound(false);
     setPlayerDoneRound(false);
-    updateLog("It's the computer's turn");
-    setIsPlayerTurn(false);
+    updateLog(`It's the ${isPlayerFirst ? "computer's" : "player's"} turn`);
+    setIsPlayerTurn(!isPlayerFirst);
+    setIsPlayerFirst(!isPlayerFirst);
   };
 
   const updateLog = (newItem) => {
@@ -145,6 +159,13 @@ function App() {
   const endGame = () => {
     updateLog('The game is over!');
     setRevealScore(true);
+    updateLog(
+      `${
+        currentPlayerInfo.score > computerPlayerInfo.score
+          ? 'Player'
+          : 'Computer'
+      } wins!`
+    );
   };
 
   useEffect(() => {
