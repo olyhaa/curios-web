@@ -18,7 +18,7 @@ export const claimArtifact = (playerInfo, artifactColor, locales) => {
   })[0];
   const neededPawns = getPawnsForSlot(currentLocale.slotsOccupied.length + 1);
 
-  if (neededPawns > pawnCount) {
+  if (neededPawns > pawnCount || currentLocale.gemCount <= 0) {
     return { isError: true };
   }
 
