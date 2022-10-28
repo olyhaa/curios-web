@@ -15,6 +15,7 @@ const PlayerView = ({
   cards,
   pawnCount,
   showCards,
+  showPassButton,
   handlePlayerPass,
   showScore,
   score,
@@ -30,7 +31,7 @@ const PlayerView = ({
         <PlayerPawns color={color} count={pawnCount} />
         <PlayerGems gems={gems} />
       </div>
-      {showCards && <button onClick={handlePlayerPass}>Pass</button>}
+      {showPassButton && <button onClick={handlePlayerPass}>Pass</button>}
     </div>
   );
 };
@@ -52,5 +53,6 @@ PlayerView.propTypes = {
   ),
   pawnCount: PropTypes.number,
   showCards: PropTypes.bool,
+  showPassButton: PropTypes.bool,
 };
 export default PlayerView;

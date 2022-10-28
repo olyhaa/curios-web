@@ -24,6 +24,7 @@ const GameBoard = ({
         {...computerPlayerInfo}
         isActive={!isPlayerTurn}
         showScore={showScore}
+        showCards={showScore}
       />
       <div className="locale-area">
         {map(
@@ -49,6 +50,7 @@ const GameBoard = ({
         showCards
         handlePlayerPass={handlePlayerPass}
         showScore={showScore}
+        showPassButton={isPlayerTurn && !showScore}
       />
     </>
   );
