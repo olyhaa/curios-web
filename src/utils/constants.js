@@ -11,6 +11,16 @@ export const DEFAULT_COLOR = 'default';
 export const CARD_COLOR_OPTIONS = { RED, BLUE, YELLOW, GREEN, DEFAULT_COLOR };
 export const PAWN_COLOR_OPTIONS = { BLACK, WHITE, PURPLE };
 
+const PLAYER = 'player';
+const COMPUTER = 'computer';
+const GAME = 'game';
+
+export const LOG_SOURCES = {
+  PLAYER,
+  COMPUTER,
+  GAME,
+};
+
 export const GAME_CONFIG = [
   {
     numPlayers: 2,

@@ -6,3 +6,15 @@
   max-width: 55rem;
   min-width: 55rem;
 }
+
+.log-computer {
+  color: var(--player-white);
+}
+
+.log-player {
+  color: var(--player-purple);
+}
+
+.log-game {
+  color: white;
+}

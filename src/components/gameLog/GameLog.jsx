@@ -16,8 +16,12 @@ const GameLog = ({ log }) => {
 
   return (
     <div className="log-container">
-      {map((logItem, index) => {
-        return <div key={++count}>{logItem}</div>;
+      {map(({ item, source }, index) => {
+        return (
+          <div key={++count} className={`log-${source}`}>
+            {item}
+          </div>
+        );
       }, log)}
       <div className="lastItem" ref={lastItemElem} />
     </div>
@@ -29,6 +33,11 @@ GameLog.defaultProps = {
 };
 
 GameLog.propTypes = {
-  log: PropTypes.arrayOf(PropTypes.string),
+  log: PropTypes.arrayOf(
+    PropTypes.shape({
+      item: PropTypes.string,
+      source: PropTypes.string,
+    })
+  ),
 };
 export default GameLog;

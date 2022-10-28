@@ -8,6 +8,7 @@ import {
   getDefaultLocales,
   getDefaultPlayerInfo,
   GAME_CONFIG,
+  LOG_SOURCES,
 } from './utils/constants';
 import { dealCards } from './utils/cardActions';
 import {
@@ -40,14 +41,20 @@ function App() {
         locales
       );
       if (!isError) {
-        updateLog('Player claimed an artifact from ' + color);
+        updateLog(
+          'Player claimed an artifact from ' + color,
+          LOG_SOURCES.PLAYER
+        );
         setCurrentPlayerInfo(() => newPlayerInfo);
         setLocales(() => newLocales);
 
         updateLog("It's the computer's turn");
         setIsPlayerTurn(false);
       } else {
-        updateLog('Player unable to claim an artifact from ' + color);
+        updateLog(
+          'Player unable to claim an artifact from ' + color,
+          LOG_SOURCES.PLAYER
+        );
       }
     } else {
       const { isError, newPlayerInfo, newLocales } = claimArtifact(
@@ -56,11 +63,17 @@ function App() {
         locales
       );
       if (!isError) {
-        updateLog('Computer claimed an artifact from ' + color);
+        updateLog(
+          'Computer claimed an artifact from ' + color,
+          LOG_SOURCES.COMPUTER
+        );
         setComputerPlayerInfo(() => newPlayerInfo);
         setLocales(() => newLocales);
       } else {
-        updateLog('Computer unable to claim an artifact from ' + color);
+        updateLog(
+          'Computer unable to claim an artifact from ' + color,
+          LOG_SOURCES.COMPUTER
+        );
       }
     }
   };
@@ -104,7 +117,7 @@ function App() {
       locales
     );
     if (!randomColor) {
-      updateLog('Computer Passed');
+      updateLog('Computer Passed', LOG_SOURCES.COMPUTER);
       setComputerDoneRound(true);
       setIsPlayerTurn(true);
       return;
@@ -118,7 +131,7 @@ function App() {
   };
 
   const handlePlayerPass = () => {
-    updateLog('Player Passed');
+    updateLog('Player Passed', LOG_SOURCES.PLAYER);
     setPlayerDoneRound(true);
   };
 
@@ -152,8 +165,11 @@ function App() {
     setIsPlayerFirst(!isPlayerFirst);
   };
 
-  const updateLog = (newItem) => {
-    setGameLog((oldArray) => [...oldArray, newItem]);
+  const updateLog = (newItem, logSource = LOG_SOURCES.GAME) => {
+    setGameLog((oldArray) => [
+      ...oldArray,
+      { item: newItem, source: logSource },
+    ]);
   };
 
   const endGame = () => {
