@@ -15,6 +15,7 @@ import {
   countLocalesWithGems,
 } from './utils/gemActions';
 import { handleEndOfRound } from './utils/roundActions';
+import NewGameView from './components/newGameView/NewGameView';
 
 function App() {
   const [locales, setLocales] = useState();
@@ -191,9 +192,7 @@ function App() {
               </div>
             </div>
           )}
-          {!currentPlayerInfo && (
-            <button onClick={resetBoard}>Start Game!</button>
-          )}
+          {!currentPlayerInfo && <NewGameView handleNewGame={resetBoard} />}
         </>
       </ErrorBoundary>
     </div>
