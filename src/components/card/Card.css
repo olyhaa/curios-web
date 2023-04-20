@@ -5,7 +5,7 @@
 .number-card-yellow,
 .number-card-green,
 .number-card-default {
-  border: solid 2px black;
+  border: solid 2px var(--card-text-default);
   border-radius: 15px;
   background-color: var(--card-background-default);
   color: var(--card-text-default);
@@ -20,26 +20,31 @@
 .number-card-red {
   background-color: var(--card-background-red);
   color: var(--card-text-red);
+  border-color: var(--card-text-red);
 }
 
 .number-card-blue {
   background-color: var(--card-background-blue);
   color: var(--card-text-blue);
+  border-color: var(--card-text-blue);
 }
 
 .number-card-yellow {
   background-color: var(--card-background-yellow);
   color: var(--card-text-yellow);
+  border-color: var(--card-text-yellow);
 }
 
 .number-card-green {
   background-color: var(--card-background-green);
   color: var(--card-text-green);
+  border-color: var(--card-text-green);
 }
 
 .number-card-default {
   background-color: var(--card-background-default);
   color: var(--card-text-default);
+  border-color: var(--card-text-default);
 }
 
 .number-card-number {
