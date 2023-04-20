@@ -16,14 +16,19 @@ const GameLog = ({ log }) => {
 
   return (
     <div className="log-container">
-      {map(({ item, source }, index) => {
-        return (
-          <div key={++count} className={`log-${source}`}>
-            {item}
-          </div>
-        );
-      }, log)}
-      <div className="lastItem" ref={lastItemElem} />
+      <div className="log-title">
+        Game Log
+      </div>
+      <div className='log-items'>
+        {map(({ item, source }, index) => {
+          return (
+            <div key={++count} className={`log-${source}`}>
+              {item}
+            </div>
+          );
+        }, log)}
+        <div className="lastItem" ref={lastItemElem} />
+        </div>
     </div>
   );
 };
