@@ -1,0 +1,38 @@
+.title {
+    font-size: 8rem;
+    color: var(--curios-gold);
+}
+
+.new-game {
+  --border-size: 3px;   /* border thickness */
+  --corner-size: 0.75rem; /* size of the corner */
+  
+  padding: calc(0.25rem + var(--corner-size)) calc(1.5rem + var(--corner-size));
+  color: var(--action-orange);
+  --corner-padding: var(--corner-size);
+
+  background:
+    conic-gradient(from 90deg at var(--border-size) var(--border-size),#0000 90deg,var(--action-orange) 0)
+    var(--corner-padding) var(--corner-padding)/calc(100% - var(--border-size) - 2*var(--corner-padding)) calc(100% - var(--border-size) - 2*var(--corner-padding));
+  transition: .3s linear, color 0s, background-color 0s;
+  outline: var(--border-size) solid #0000;
+  outline-offset: 1rem;
+
+  font-weight: bold;
+  font-size: 4rem;
+  cursor: pointer;
+  border: none;
+  margin: 0.5rem;
+}
+
+.new-game:hover,
+.new-game:focus-visible{
+  --corner-padding: 0px;
+  outline-color: var(--action-orange);
+  outline-offset: 0.25rem;
+}
+
+.new-game:active {
+  background: var(--action-orange);
+  color: #fff;
+}
