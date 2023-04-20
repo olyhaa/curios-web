@@ -4,8 +4,8 @@
 }
 
 .new-game {
-  --border-size: 3px;   /* border thickness */
-  --corner-size: 0.75rem; /* size of the corner */
+  --border-size: 3px;
+  --corner-size: 0.75rem;
   
   padding: calc(0.25rem + var(--corner-size)) calc(1.5rem + var(--corner-size));
   color: var(--action-orange);

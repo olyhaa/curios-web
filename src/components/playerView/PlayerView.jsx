@@ -21,17 +21,19 @@ const PlayerView = ({
   score,
 }) => {
   return (
-    <div className="player-area">
+    <div className={`player-area-${color}`}>
       <div className="player-active-area">
         {!showScore && isActive && <PlayerActive color={color} />}
         {showScore && <PlayerScore score={score} color={color} />}
       </div>
       <PlayerHand cards={cards} showCards={showCards} />
       <div className="item-area">
-        <PlayerPawns color={color} count={pawnCount} />
+        {!showScore && <PlayerPawns color={color} count={pawnCount} />}
         <PlayerGems gems={gems} />
       </div>
-      {showPassButton && <button onClick={handlePlayerPass}>Pass</button>}
+      <div className='button-area'>
+        {showPassButton && <button className="pass-button" onClick={handlePlayerPass}>Pass</button>}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 .player-gems {
   display: grid;
   gap: 1rem 0;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto;
   margin: 1rem;
 }

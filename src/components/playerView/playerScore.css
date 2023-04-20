@@ -12,5 +12,11 @@
 .player-score-white,
 .player-score-purple {
   font-size: 2em;
+  font-weight: bold;
   color: var(--score-color);
+}
+
+.score-title {
+  font-size: 2rem;
+  margin-bottom: 0;
 }

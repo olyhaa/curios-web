@@ -18,6 +18,13 @@ body {
   color: white;
 }
 
+.game-board-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .game-layout {
   display: flex;
   flex-direction: row;
@@ -28,4 +35,5 @@ body {
 .game-log-container {
   display: flex;
   align-items: stretch;
+  height: 100vh;
 }

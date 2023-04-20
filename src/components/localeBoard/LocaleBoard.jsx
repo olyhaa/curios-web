@@ -30,7 +30,7 @@ const LocaleBoard = ({
         )}
         {showCard && <Card number={card.number} color={card.color} />}
       </div>
-      {gemCount > 0 && (
+      {!showCard && gemCount > 0 && (
         <div className="gem-stash">
           {map(
             (index) => (
