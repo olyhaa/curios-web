@@ -1,5 +1,4 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import GameBoard from './components/gameBoard/GameBoard';
 import GameLog from './components/gameLog/GameLog';
 import ErrorBoundary from './ErrorBoundary';
@@ -18,20 +17,51 @@ import {
 } from './utils/gemActions';
 import { handleEndOfRound } from './utils/roundActions';
 import NewGameView from './components/newGameView/NewGameView';
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
+import {
+  ComputerDoneRoundAtom,
+  ComputerPlayerInfoAtom,
+  CurrentPlayerInfoAtom,
+  DrawPileAtom,
+  GameFinishedAtom,
+  LocaleAtom,
+  PlayerDoneRoundAtom,
+  PlayerFirstAtom,
+  PlayerTurnAtom,
+  PublicCardsAtom,
+  RevealScoreAtom,
+} from './state/gameStateAtoms';
+import { GameLogAtom } from './state/logAtom';
+import './App.css';
 
 function App() {
-  const [locales, setLocales] = useState();
-  const [drawPile, setDrawPile] = useState();
-  const [publicCards, setPublicCards] = useState();
-  const [currentPlayerInfo, setCurrentPlayerInfo] = useState();
-  const [computerPlayerInfo, setComputerPlayerInfo] = useState();
-  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
-  const [isPlayerFirst, setIsPlayerFirst] = useState(true);
-  const [isComputerDoneRound, setComputerDoneRound] = useState(false);
-  const [isPlayerDoneRound, setPlayerDoneRound] = useState(false);
-  const [isGameDone, setGameDone] = useState(false);
-  const [revealScore, setRevealScore] = useState(false);
-  const [gameLog, setGameLog] = useState([]);
+  const [locales, setLocales] = useRecoilState(LocaleAtom);
+  const [drawPile, setDrawPile] = useRecoilState(DrawPileAtom);
+  const [publicCards, setPublicCards] = useRecoilState(PublicCardsAtom);
+  const resetPublicCards = useResetRecoilState(PublicCardsAtom);
+  const [currentPlayerInfo, setCurrentPlayerInfo] = useRecoilState(
+    CurrentPlayerInfoAtom
+  );
+  const [computerPlayerInfo, setComputerPlayerInfo] = useRecoilState(
+    ComputerPlayerInfoAtom
+  );
+  const [isPlayerTurn, setIsPlayerTurn] = useRecoilState(PlayerTurnAtom);
+  const resetPlayerTurn = useResetRecoilState(PlayerTurnAtom);
+  const [isPlayerFirst, setIsPlayerFirst] = useRecoilState(PlayerFirstAtom);
+  const resetPlayerFirst = useResetRecoilState(PlayerFirstAtom);
+  const [isComputerDoneRound, setComputerDoneRound] = useRecoilState(
+    ComputerDoneRoundAtom
+  );
+  const resetComputerDoneRound = useResetRecoilState(ComputerDoneRoundAtom);
+  const [isPlayerDoneRound, setPlayerDoneRound] =
+    useRecoilState(PlayerDoneRoundAtom);
+  const resetPlayerDoneRound = useResetRecoilState(PlayerDoneRoundAtom);
+  const [isGameDone, setGameDone] = useRecoilState(GameFinishedAtom);
+  const resetGameDone = useResetRecoilState(GameFinishedAtom);
+  const setRevealScore = useSetRecoilState(RevealScoreAtom);
+  const resetRevealScore = useResetRecoilState(RevealScoreAtom);
+  const setGameLog = useSetRecoilState(GameLogAtom);
+  const resetGameLog = useResetRecoilState(GameLogAtom);
 
   const handleSelectLocale = (isCurrentPlayer, color) => {
     if (isCurrentPlayer) {
@@ -79,7 +109,7 @@ function App() {
   };
 
   const resetBoard = () => {
-    setGameLog([]);
+    resetGameLog();
     const thisGameConfig = GAME_CONFIG.filter(
       ({ numPlayers }) => numPlayers === 2
     )[0];
@@ -90,7 +120,7 @@ function App() {
 
     setLocales(() => getDefaultLocales(2, handleSelectLocale, localeCards));
     setDrawPile(() => drawPile);
-    setPublicCards(() => []);
+    resetPublicCards();
     setCurrentPlayerInfo(() =>
       getDefaultPlayerInfo(playerCards, PAWN_COLOR_OPTIONS.PURPLE)
     );
@@ -98,12 +128,12 @@ function App() {
       getDefaultPlayerInfo(computerCards, PAWN_COLOR_OPTIONS.WHITE)
     );
     updateLog("It's the player's turn");
-    setIsPlayerFirst(true);
-    setIsPlayerTurn(true);
-    setComputerDoneRound(false);
-    setPlayerDoneRound(false);
-    setGameDone(false);
-    setRevealScore(false);
+    resetPlayerFirst();
+    resetPlayerTurn();
+    resetComputerDoneRound();
+    resetPlayerDoneRound();
+    resetGameDone();
+    resetRevealScore();
   };
 
   const doComputerTurn = () => {
@@ -158,8 +188,8 @@ function App() {
     setDrawPile(() => updatedDrawPile);
     setPublicCards(() => updatedPublicCards);
 
-    setComputerDoneRound(false);
-    setPlayerDoneRound(false);
+    resetComputerDoneRound();
+    resetPlayerDoneRound();
     updateLog(`It's the ${isPlayerFirst ? "computer's" : "player's"} turn`);
     setIsPlayerTurn(!isPlayerFirst);
     setIsPlayerFirst(!isPlayerFirst);
@@ -214,20 +244,12 @@ function App() {
             <div className="game-layout">
               <div className="game-board-container">
                 <GameBoard
-                  locales={locales}
                   handleSelectLocale={handleSelectLocale}
-                  drawPile={drawPile}
-                  publicCards={publicCards}
-                  currentPlayerInfo={currentPlayerInfo}
-                  computerPlayerInfo={computerPlayerInfo}
-                  isPlayerTurn={isPlayerTurn}
                   handlePlayerPass={handlePlayerPass}
-                  addLog={updateLog}
-                  showScore={revealScore}
                 />
               </div>
               <div className="game-log-container">
-                <GameLog log={gameLog} />
+                <GameLog />
               </div>
             </div>
           )}

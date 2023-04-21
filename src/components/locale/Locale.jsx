@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import LocaleSlot from './LocaleSlot';
 import { CARD_COLOR_OPTIONS, PAWN_COLOR_OPTIONS } from '../../utils/constants';
 import './locale.css';
+import { PlayerTurnAtom } from '../../state/gameStateAtoms';
+import { useRecoilValue } from 'recoil';
 
-const Locale = ({ slotsOccupied, color, handleSelectLocale, isPlayerTurn }) => {
+const Locale = ({ slotsOccupied, color, handleSelectLocale }) => {
+  const isPlayerTurn = useRecoilValue(PlayerTurnAtom);
+
   return (
     <div
       className={`locale-card-${color}`}

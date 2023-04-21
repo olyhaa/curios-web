@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { map } from 'ramda';
 import './gameLog.css';
 import { useRef, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
+import { GameLogAtom } from '../../state/logAtom';
 
-const GameLog = ({ log }) => {
+const GameLog = () => {
   let count = 0;
   const lastItemElem = useRef();
+  const log = useRecoilValue(GameLogAtom);
 
   const scrollToBottom = () => {
     lastItemElem.current.scrollIntoView({ behavior: 'smooth' });

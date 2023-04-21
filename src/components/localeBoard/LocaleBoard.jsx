@@ -6,6 +6,8 @@ import Gem from '../gem/Gem';
 import Card from '../card/Card';
 import { CARD_COLOR_OPTIONS, PAWN_COLOR_OPTIONS } from '../../utils/constants';
 import './localeBoard.css';
+import { RevealScoreAtom } from '../../state/gameStateAtoms';
+import { useRecoilValue } from 'recoil';
 
 const LocaleBoard = ({
   slotsOccupied,
@@ -13,9 +15,9 @@ const LocaleBoard = ({
   gemCount,
   handleSelectLocale,
   card,
-  showCard,
-  isPlayerTurn,
 }) => {
+  const showCard = useRecoilValue(RevealScoreAtom);
+
   return (
     <div>
       <div className="locale-board-area">
@@ -25,7 +27,6 @@ const LocaleBoard = ({
             color={color}
             handleSelectLocale={handleSelectLocale}
             card={card}
-            isPlayerTurn={isPlayerTurn}
           ></Locale>
         )}
         {showCard && <Card number={card.number} color={card.color} />}

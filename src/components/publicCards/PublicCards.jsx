@@ -4,8 +4,13 @@ import { map } from 'ramda';
 import Card from '../card/Card';
 import { CARD_COLOR_OPTIONS } from '../../utils/constants';
 import './publicCards.css';
+import { useRecoilValue } from 'recoil';
+import { DrawPileAtom, PublicCardsAtom } from '../../state/gameStateAtoms';
 
-const PublicCards = ({ cardPile, displayCards }) => {
+const PublicCards = () => {
+  const cardPile = useRecoilValue(DrawPileAtom);
+  const displayCards = useRecoilValue(PublicCardsAtom);
+
   return (
     <div className="public-cards">
       {cardPile.length > 0 && <Card />}

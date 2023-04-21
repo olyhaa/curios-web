@@ -6,24 +6,30 @@ import PlayerView from '../playerView/PlayerView';
 import PublicCards from '../publicCards/PublicCards';
 import { CARD_COLOR_OPTIONS, PAWN_COLOR_OPTIONS } from '../../utils/constants';
 import './gameBoard.css';
+import { useRecoilValue } from 'recoil';
+import {
+  ComputerPlayerInfoAtom,
+  CurrentPlayerInfoAtom,
+  LocaleAtom,
+  PlayerTurnAtom,
+  RevealScoreAtom
+} from '../../state/gameStateAtoms';
 
 const GameBoard = ({
-  locales,
   handleSelectLocale,
-  drawPile,
-  publicCards,
-  currentPlayerInfo,
-  computerPlayerInfo,
-  isPlayerTurn,
   handlePlayerPass,
-  showScore,
 }) => {
+  const locales = useRecoilValue(LocaleAtom);
+  const currentPlayerInfo = useRecoilValue(CurrentPlayerInfoAtom);
+  const computerPlayerInfo = useRecoilValue(ComputerPlayerInfoAtom);
+  const isPlayerTurn = useRecoilValue(PlayerTurnAtom);
+  const showScore = useRecoilValue(RevealScoreAtom);
+
   return (
     <>
       <PlayerView
         {...computerPlayerInfo}
         isActive={!isPlayerTurn}
-        showScore={showScore}
         showCards={showScore}
       />
       <div className="locale-area">
@@ -36,20 +42,17 @@ const GameBoard = ({
               gemCount={gemCount}
               handleSelectLocale={handleSelectLocale}
               card={card}
-              showCard={showScore}
-              isPlayerTurn={isPlayerTurn}
             />
           ),
           locales
         )}
       </div>
-      <PublicCards cardPile={drawPile} displayCards={publicCards} />
+      <PublicCards/>
       <PlayerView
         {...currentPlayerInfo}
         isActive={isPlayerTurn}
         showCards
         handlePlayerPass={handlePlayerPass}
-        showScore={showScore}
         showPassButton={isPlayerTurn && !showScore}
       />
     </>

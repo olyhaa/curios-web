@@ -7,6 +7,8 @@ import PlayerPawns from './PlayerPawns';
 import PlayerActive from './PlayerActive';
 import PlayerScore from './PlayerScore';
 import './playerView.css';
+import { useRecoilValue } from 'recoil';
+import { RevealScoreAtom } from '../../state/gameStateAtoms';
 
 const PlayerView = ({
   isActive,
@@ -15,11 +17,12 @@ const PlayerView = ({
   cards,
   pawnCount,
   showCards,
-  showPassButton,
   handlePlayerPass,
-  showScore,
   score,
 }) => {
+  const showScore = useRecoilValue(RevealScoreAtom);
+  const showPassButton = isActive && !showScore && handlePlayerPass;
+
   return (
     <div className={`player-area-${color}`}>
       <div className="player-active-area">
