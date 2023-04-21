@@ -10,14 +10,15 @@ import {
   LOG_SOURCES,
 } from './utils/constants';
 import { dealCards } from './utils/cardActions';
-import {
-  computerClaimArtifact,
-  claimArtifact,
-  countLocalesWithGems,
-} from './utils/gemActions';
+import { claimArtifact, countLocalesWithGems } from './utils/gemActions';
 import { handleEndOfRound } from './utils/roundActions';
 import NewGameView from './components/newGameView/NewGameView';
-import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {
   ComputerDoneRoundAtom,
   ComputerPlayerInfoAtom,
@@ -33,7 +34,7 @@ import {
 } from './state/gameStateAtoms';
 import { GameLogAtom } from './state/logAtom';
 import './App.css';
-import GameHelp from './components/sidebar/help/GameHelp';
+import { useLog } from './utils/useLog';
 
 function App() {
   const [locales, setLocales] = useRecoilState(LocaleAtom);
@@ -46,23 +47,57 @@ function App() {
   const [computerPlayerInfo, setComputerPlayerInfo] = useRecoilState(
     ComputerPlayerInfoAtom
   );
-  const [isPlayerTurn, setIsPlayerTurn] = useRecoilState(PlayerTurnAtom);
+  const setIsPlayerTurn = useSetRecoilState(PlayerTurnAtom);
   const resetPlayerTurn = useResetRecoilState(PlayerTurnAtom);
   const [isPlayerFirst, setIsPlayerFirst] = useRecoilState(PlayerFirstAtom);
   const resetPlayerFirst = useResetRecoilState(PlayerFirstAtom);
-  const [isComputerDoneRound, setComputerDoneRound] = useRecoilState(
-    ComputerDoneRoundAtom
-  );
+  const isComputerDoneRound = useRecoilValue(ComputerDoneRoundAtom);
   const resetComputerDoneRound = useResetRecoilState(ComputerDoneRoundAtom);
-  const [isPlayerDoneRound, setPlayerDoneRound] =
-    useRecoilState(PlayerDoneRoundAtom);
+  const isPlayerDoneRound = useRecoilValue(PlayerDoneRoundAtom);
   const resetPlayerDoneRound = useResetRecoilState(PlayerDoneRoundAtom);
   const [isGameDone, setGameDone] = useRecoilState(GameFinishedAtom);
   const resetGameDone = useResetRecoilState(GameFinishedAtom);
   const setRevealScore = useSetRecoilState(RevealScoreAtom);
   const resetRevealScore = useResetRecoilState(RevealScoreAtom);
-  const setGameLog = useSetRecoilState(GameLogAtom);
   const resetGameLog = useResetRecoilState(GameLogAtom);
+  const updateLog = useLog();
+
+  const startNewGame = () => {
+    updateLog('Setting up board for a new game.');
+    resetGameLog();
+    resetPublicCards();
+
+    const thisGameConfig = GAME_CONFIG.filter(
+      ({ numPlayers }) => numPlayers === 2
+    )[0];
+
+    const { drawPile, playerCards, computerCards, localeCards } =
+      dealCards(thisGameConfig);
+
+    setLocales(() => getDefaultLocales(2, handleSelectLocale, localeCards));
+    updateLog(`Assigning ${localeCards.length} cards to Treasure Sites.`);
+
+    setDrawPile(() => drawPile);
+    updateLog(`${drawPile.length} cards added to Market side deck.`);
+
+    setCurrentPlayerInfo(() =>
+      getDefaultPlayerInfo(playerCards, PAWN_COLOR_OPTIONS.PURPLE)
+    );
+    updateLog(`${playerCards.length} cards dealt to player.`);
+
+    setComputerPlayerInfo(() =>
+      getDefaultPlayerInfo(computerCards, PAWN_COLOR_OPTIONS.WHITE)
+    );
+    updateLog(`${computerCards.length} cards dealt to computer.`);
+
+    resetPlayerFirst();
+    resetPlayerTurn();
+    resetComputerDoneRound();
+    resetPlayerDoneRound();
+    resetGameDone();
+    resetRevealScore();
+    updateLog("It's the player's turn.");
+  };
 
   const handleSelectLocale = (isCurrentPlayer, color) => {
     if (isCurrentPlayer) {
@@ -73,7 +108,7 @@ function App() {
       );
       if (!isError) {
         updateLog(
-          'Player claimed an artifact from ' + color,
+          `Player claimed an artifact from ${color}.`,
           LOG_SOURCES.PLAYER
         );
         setCurrentPlayerInfo(() => newPlayerInfo);
@@ -83,7 +118,7 @@ function App() {
         setIsPlayerTurn(false);
       } else {
         updateLog(
-          'Player unable to claim an artifact from ' + color,
+          `Player unable to claim an artifact from ${color}.`,
           LOG_SOURCES.PLAYER
         );
       }
@@ -95,79 +130,23 @@ function App() {
       );
       if (!isError) {
         updateLog(
-          'Computer claimed an artifact from ' + color,
+          `Computer claimed an artifact from ${color}.`,
           LOG_SOURCES.COMPUTER
         );
         setComputerPlayerInfo(() => newPlayerInfo);
         setLocales(() => newLocales);
       } else {
         updateLog(
-          'Computer unable to claim an artifact from ' + color,
+          `Computer unable to claim an artifact from ${color}.`,
           LOG_SOURCES.COMPUTER
         );
       }
     }
   };
 
-  const resetBoard = () => {
-    resetGameLog();
-    const thisGameConfig = GAME_CONFIG.filter(
-      ({ numPlayers }) => numPlayers === 2
-    )[0];
-
-    const { drawPile, playerCards, computerCards, localeCards } =
-      dealCards(thisGameConfig);
-    updateLog('Dealing out new cards');
-
-    setLocales(() => getDefaultLocales(2, handleSelectLocale, localeCards));
-    setDrawPile(() => drawPile);
-    resetPublicCards();
-    setCurrentPlayerInfo(() =>
-      getDefaultPlayerInfo(playerCards, PAWN_COLOR_OPTIONS.PURPLE)
-    );
-    setComputerPlayerInfo(() =>
-      getDefaultPlayerInfo(computerCards, PAWN_COLOR_OPTIONS.WHITE)
-    );
-    updateLog("It's the player's turn");
-    resetPlayerFirst();
-    resetPlayerTurn();
-    resetComputerDoneRound();
-    resetPlayerDoneRound();
-    resetGameDone();
-    resetRevealScore();
-  };
-
-  const doComputerTurn = () => {
-    setIsPlayerTurn(false);
-    if (isComputerDoneRound) {
-      updateLog("It's the player's turn again");
-      setIsPlayerTurn(true);
-    }
-    const randomColor = computerClaimArtifact(
-      computerPlayerInfo.pawnCount,
-      locales
-    );
-    if (!randomColor) {
-      updateLog('Computer Passed', LOG_SOURCES.COMPUTER);
-      setComputerDoneRound(true);
-      setIsPlayerTurn(true);
-      return;
-    }
-    setComputerDoneRound(false);
-    setTimeout(() => {
-      handleSelectLocale(false, randomColor);
-      updateLog("It's the player's turn");
-      setIsPlayerTurn(true);
-    }, 1000);
-  };
-
-  const handlePlayerPass = () => {
-    updateLog('Player Passed', LOG_SOURCES.PLAYER);
-    setPlayerDoneRound(true);
-  };
-
   const endRound = () => {
-    updateLog("It's the end of the round");
+    updateLog('Searching for Treasure is completed this round.');
+
     const {
       updatedComputerInfo,
       updatedPlayerInfo,
@@ -182,41 +161,61 @@ function App() {
       drawPile,
     });
 
-    updateLog('Resetting pawns for all players');
+    updateLog('Retrieving Archaeologists for all players.');
     setCurrentPlayerInfo(() => updatedPlayerInfo);
+    updateLog(`Player has ${currentPlayerInfo.maxPawnCount} archaeologists.`);
+
     setComputerPlayerInfo(() => updatedComputerInfo);
+    updateLog(
+      `Computer has ${computerPlayerInfo.maxPawnCount} archaeologists.`
+    );
+
     setLocales(() => updatedLocales);
     setDrawPile(() => updatedDrawPile);
     setPublicCards(() => updatedPublicCards);
+    updateLog(
+      `There are now ${updatedDrawPile.length} cards in the Market side deck.`
+    );
 
     resetComputerDoneRound();
     resetPlayerDoneRound();
+
     updateLog(`It's the ${isPlayerFirst ? "computer's" : "player's"} turn`);
     setIsPlayerTurn(!isPlayerFirst);
     setIsPlayerFirst(!isPlayerFirst);
   };
 
-  const updateLog = (newItem, logSource = LOG_SOURCES.GAME) => {
-    setGameLog((oldArray) => [
-      ...oldArray,
-      { item: newItem, source: logSource },
-    ]);
-  };
-
   const endGame = () => {
-    updateLog('The game is over!');
+    updateLog('Computing scores...');
     setRevealScore(true);
     updateLog(
-      `${
-        currentPlayerInfo.score > computerPlayerInfo.score
-          ? 'Player'
-          : 'Computer'
-      } wins!`
+      `Computer has ${computerPlayerInfo.score} points.`,
+      LOG_SOURCES.COMPUTER
     );
+    updateLog(
+      `Player has ${currentPlayerInfo.score} points.`,
+      LOG_SOURCES.PLAYER
+    );
+
+    if (currentPlayerInfo.score === computerPlayerInfo.score) {
+      updateLog('Player and Computer ties!');
+    } else {
+      updateLog(
+        `${
+          currentPlayerInfo.score > computerPlayerInfo.score
+            ? 'Player'
+            : 'Computer'
+        } wins!`
+      );
+    }
   };
 
   useEffect(() => {
-    if (countLocalesWithGems(locales) <= 2) {
+    const gemCount = countLocalesWithGems(locales);
+    if (gemCount <= 2) {
+      updateLog(
+        `There are ${gemCount} remaining locales with artifacts. This will be the last round.`
+      );
       setGameDone(true);
     }
   }, [locales]);
@@ -231,12 +230,6 @@ function App() {
     }
   }, [isPlayerDoneRound, isComputerDoneRound]);
 
-  useEffect(() => {
-    if (!isPlayerTurn || isPlayerDoneRound) {
-      doComputerTurn();
-    }
-  }, [isPlayerTurn, isPlayerDoneRound]);
-
   return (
     <div className="App">
       <ErrorBoundary>
@@ -244,17 +237,14 @@ function App() {
           {currentPlayerInfo && (
             <div className="game-layout">
               <div className="game-board-container">
-                <GameBoard
-                  handleSelectLocale={handleSelectLocale}
-                  handlePlayerPass={handlePlayerPass}
-                />
+                <GameBoard handleSelectLocale={handleSelectLocale} />
               </div>
               <div className="game-sidebar">
                 <GameLog />
               </div>
             </div>
           )}
-          {!currentPlayerInfo && <NewGameView handleNewGame={resetBoard} />}
+          {!currentPlayerInfo && <NewGameView handleNewGame={startNewGame} />}
         </>
       </ErrorBoundary>
     </div>

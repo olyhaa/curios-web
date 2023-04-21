@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { map } from 'ramda';
 import './gameLog.css';
 import { useRef, useEffect } from 'react';
@@ -38,16 +37,4 @@ const GameLog = () => {
   );
 };
 
-GameLog.defaultProps = {
-  log: [],
-};
-
-GameLog.propTypes = {
-  log: PropTypes.arrayOf(
-    PropTypes.shape({
-      item: PropTypes.string,
-      source: PropTypes.string,
-    })
-  ),
-};
 export default GameLog;

@@ -1,30 +1,72 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'ramda';
 import LocaleBoard from '../localeBoard/LocaleBoard';
 import PlayerView from '../playerView/PlayerView';
 import PublicCards from '../publicCards/PublicCards';
-import { CARD_COLOR_OPTIONS, PAWN_COLOR_OPTIONS } from '../../utils/constants';
+import {  LOG_SOURCES } from '../../utils/constants';
 import './gameBoard.css';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
+  ComputerDoneRoundAtom,
   ComputerPlayerInfoAtom,
   CurrentPlayerInfoAtom,
   LocaleAtom,
+  PlayerDoneRoundAtom,
   PlayerTurnAtom,
   RevealScoreAtom
 } from '../../state/gameStateAtoms';
+import {  computerClaimArtifact } from '../../utils/gemActions';
+import { useLog } from '../../utils/useLog';
 
 const GameBoard = ({
-  handleSelectLocale,
-  handlePlayerPass,
+  handleSelectLocale
 }) => {
   const locales = useRecoilValue(LocaleAtom);
   const currentPlayerInfo = useRecoilValue(CurrentPlayerInfoAtom);
   const computerPlayerInfo = useRecoilValue(ComputerPlayerInfoAtom);
-  const isPlayerTurn = useRecoilValue(PlayerTurnAtom);
+  const [isPlayerTurn, setIsPlayerTurn] = useRecoilState(PlayerTurnAtom);
   const showScore = useRecoilValue(RevealScoreAtom);
+  const [isPlayerDoneRound, setPlayerDoneRound] = useRecoilState(PlayerDoneRoundAtom);
+  const [isComputerDoneRound, setComputerDoneRound] = useRecoilState(ComputerDoneRoundAtom);
+  const updateLog = useLog();
+  
+  useEffect(() => {
+    if (!isPlayerTurn || isPlayerDoneRound) {
+      doComputerTurn();
+    }
+  }, [isPlayerTurn, isPlayerDoneRound]);
+  
+  const doComputerTurn = () => {
+    setIsPlayerTurn(false);
+    if (isComputerDoneRound) {
+      updateLog("It's the player's turn again");
+      setIsPlayerTurn(true);
+    }
+    const randomColor = computerClaimArtifact(
+      computerPlayerInfo.pawnCount,
+      locales
+    );
+    if (!randomColor) {
+      updateLog('Computer passed for this phase.', LOG_SOURCES.COMPUTER);
+      setComputerDoneRound(true);
+      setIsPlayerTurn(true);
+      return;
+    }
+    setComputerDoneRound(false);
+    setTimeout(() => {
+      handleSelectLocale(false, randomColor);
+      updateLog("It's the player's turn");
+      setIsPlayerTurn(true);
+    }, 1000);
+  };
 
+  const handlePlayerPass = () => {
+    updateLog('Player passed for this phase.', LOG_SOURCES.PLAYER);
+    setPlayerDoneRound(true);
+  };
+
+  
   return (
     <>
       <PlayerView
@@ -60,47 +102,7 @@ const GameBoard = ({
 };
 
 GameBoard.propTypes = {
-  locales: PropTypes.arrayOf(
-    PropTypes.shape({
-      slotsOccupied: PropTypes.arrayOf(
-        PropTypes.oneOf(Object.values(PAWN_COLOR_OPTIONS))
-      ),
-      color: PropTypes.oneOf(Object.values(CARD_COLOR_OPTIONS)),
-      gemCount: PropTypes.number,
-    })
-  ),
-  handleSelectLocale: PropTypes.func,
-  drawPile: PropTypes.arrayOf(
-    PropTypes.shape({
-      color: PropTypes.oneOf(Object.values(CARD_COLOR_OPTIONS)),
-      numer: PropTypes.number,
-    })
-  ),
-  publicCards: PropTypes.arrayOf(
-    PropTypes.shape({
-      color: PropTypes.oneOf(Object.values(CARD_COLOR_OPTIONS)),
-      numer: PropTypes.number,
-    })
-  ),
-  isPlayerTurn: PropTypes.bool,
-  currentPlayerInfo: PropTypes.shape({
-    color: PropTypes.oneOf(Object.values(PAWN_COLOR_OPTIONS)),
-    gems: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.oneOf(Object.values(CARD_COLOR_OPTIONS)),
-        count: PropTypes.number,
-      })
-    ),
-    cards: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.oneOf(Object.values(CARD_COLOR_OPTIONS)),
-        numer: PropTypes.number,
-      })
-    ),
-    pawnCount: PropTypes.number,
-  }),
-  handlePlayerPass: PropTypes.func,
-  addLog: PropTypes.func,
+  handleSelectLocale: PropTypes.func
 };
 
 export default GameBoard;
