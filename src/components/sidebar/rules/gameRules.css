@@ -1,0 +1,28 @@
+.rules-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.rules-container h2,
+.rules-container h3,
+.rules-container h4 {
+    color: var(--curios-gold);
+    margin-bottom: 0;
+}
+
+.rules-container h2 {
+    font-size: 2rem;
+}
+
+.rules-container h3 {
+    font-size: 1.75rem;
+}
+
+.rules-container h4 {
+    font-size: 1.5rem;
+}
+
+.rules-container span {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}

@@ -13,8 +13,11 @@
 .log-title {
   color: var(--curios-gold);
   font-size: 2rem;
-  padding: 1rem;
+  padding: 0 1rem 0.5rem;
   border-bottom: 3px solid var(--curios-gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .log-items {

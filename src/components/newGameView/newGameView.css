@@ -1,6 +1,23 @@
+.new-game-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .title {
     font-size: 8rem;
     color: var(--curios-gold);
+}
+
+.intro {
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--curios-gold);
+    max-width: 60rem;
+    margin-bottom: 3rem;
+    text-align: justify;
 }
 
 .new-game {

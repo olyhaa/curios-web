@@ -4,7 +4,8 @@ import { map } from 'ramda';
 import './gameLog.css';
 import { useRef, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { GameLogAtom } from '../../state/logAtom';
+import { GameLogAtom } from '../../../state/logAtom';
+import GameHelp from '../help/GameHelp';
 
 const GameLog = () => {
   let count = 0;
@@ -21,6 +22,7 @@ const GameLog = () => {
     <div className="log-container">
       <div className="log-title">
         Game Log
+        <GameHelp />
       </div>
       <div className='log-items'>
         {map(({ item, source }, index) => {

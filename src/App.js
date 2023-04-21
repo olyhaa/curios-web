@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import GameBoard from './components/gameBoard/GameBoard';
-import GameLog from './components/gameLog/GameLog';
+import GameLog from './components/sidebar/gameLog/GameLog';
 import ErrorBoundary from './ErrorBoundary';
 import {
   PAWN_COLOR_OPTIONS,
@@ -33,6 +33,7 @@ import {
 } from './state/gameStateAtoms';
 import { GameLogAtom } from './state/logAtom';
 import './App.css';
+import GameHelp from './components/sidebar/help/GameHelp';
 
 function App() {
   const [locales, setLocales] = useRecoilState(LocaleAtom);
@@ -248,7 +249,7 @@ function App() {
                   handlePlayerPass={handlePlayerPass}
                 />
               </div>
-              <div className="game-log-container">
+              <div className="game-sidebar">
                 <GameLog />
               </div>
             </div>

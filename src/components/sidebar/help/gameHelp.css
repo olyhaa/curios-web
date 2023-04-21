@@ -1,0 +1,117 @@
+.rule-button {
+    --border-size: 3px;
+    --corner-size: 0.5rem;
+
+    padding: calc(0.25rem + var(--corner-size)) calc(1.5rem + var(--corner-size));
+    color: var(--action-orange);
+    --corner-padding: var(--corner-size);
+
+    background:
+        conic-gradient(from 90deg at var(--border-size) var(--border-size), #0000 90deg, var(--action-orange) 0) var(--corner-padding) var(--corner-padding)/calc(100% - var(--border-size) - 2*var(--corner-padding)) calc(100% - var(--border-size) - 2*var(--corner-padding));
+    transition: .3s linear, color 0s, background-color 0s;
+    outline: var(--border-size) solid #0000;
+    outline-offset: 1rem;
+
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+    margin: 0.5rem;
+}
+
+.rule-button:hover,
+.rule-buttonn:focus-visible {
+    --corner-padding: 0px;
+    outline-color: var(--action-orange);
+    outline-offset: 0.25rem;
+}
+
+.rule-button:active {
+    background: var(--action-orange);
+    color: #fff;
+
+}
+
+
+.modal-container {
+    border: 1px solid #282c34;
+    overflow: auto;
+    border-radius: 0.5rem;
+    outline: none;
+    padding: 1rem 3rem;
+    background-color: #282c34;
+    max-width: 65rem;
+    margin: 5rem;
+}
+
+.modal-overlay {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--curios-gold);
+}
+
+.modal-header h1 {
+    font-size: 4rem;
+    margin-bottom: 0;
+}
+
+.close-button {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 150ms;
+}
+
+.close-button:hover,
+.close-button:focus {
+    transform: rotateZ(90deg);
+}
+
+.close-icon {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: block;
+}
+
+.close-icon:before,
+.close-icon:after {
+    content: '';
+    position: absolute;
+    top: calc((2.5rem - 0.5rem) / 2);
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+    background: white;
+    border-radius: 0.5rem;
+}
+
+.close-icon:before {
+    transform: rotate(45deg);
+}
+
+.close-icon:after {
+    transform: rotate(-45deg);
+}
